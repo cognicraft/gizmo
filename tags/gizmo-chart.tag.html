@@ -1,0 +1,15 @@
+<gizmo-chart>
+    <div></div>
+    <script>
+        let root = this.root;
+        this.on('mount', function () {
+            fetch(opts.src).then(function (response) {
+                return response.json();
+            }).then(function (resource) {
+                let options = resource;
+                options.bindto = root.querySelector('div');
+                let chart = c3.generate(options);
+            });
+        });
+    </script>
+</gizmo-chart>

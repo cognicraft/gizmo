@@ -1,0 +1,72 @@
+<gizmo-popover>
+    <div class="popover" onclick={toggle}>
+        <div class="label">{opts.label}</div>
+        <div class="{content: true, show: show}">
+            <yield/>
+        </div>
+    </div>
+    <style>
+        :scope .popover {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        :scope .content {
+            visibility: hidden;
+            position: absolute;
+            z-index: 1;
+	        background: #88b7d5;
+	        border: 2px solid #c2e1f5;
+            padding: 1em;
+        }
+        :scope .content:after, :scope .content:before {
+            bottom: 100%;
+            left: 1em;
+            border: solid transparent;
+            content: " ";
+            height: 0;
+            width: 0;
+            position: absolute;
+            pointer-events: none;
+        }
+        :scope .content:after {
+            border-color: rgba(136, 183, 213, 0);
+            border-bottom-color: #88b7d5;
+            border-width: 10px;
+            margin-left: -10px;
+        }
+        :scope .content:before {
+            border-color: rgba(194, 225, 245, 0);
+            border-bottom-color: #c2e1f5;
+            border-width: 13px;
+            margin-left: -13px;
+        }
+        :scope .show {
+            visibility: visible;
+            -webkit-animation: fadeIn 1s;
+            animation: fadeIn 1s;
+        }
+        /* Add animation (fade in the popup) */
+        @-webkit-keyframes fadeIn {
+            from {opacity: 0;} 
+            to {opacity: 1;}
+        }
+        @keyframes fadeIn {
+            from {opacity: 0;}
+            to {opacity:1 ;}
+        }
+    </style>
+    <script>
+        let tag = this;
+        tag.show = false;
+        
+        toggle() {
+            tag.update({show: !tag.show});
+            console.log(tag);
+        }
+    </script>
+</gizmo-popover>

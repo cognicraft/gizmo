@@ -1,0 +1,25 @@
+<gizmo-error>
+    <div class="error">
+        <span if={error.code} class="code">{error.code}</span><span class="message">{error.message}</span>
+    </div>
+    <style scoped>
+        .error{
+            border: 1px solid;
+            padding: 15px;
+            color: #D8000C;
+            background-color: #FFBABA;
+            margin-top: .75em;
+            margin-bottom: .75em;
+        }
+        .code::before{
+            content: "(";
+        }
+        .code::after{
+            content: ")\00a0";
+        }
+    </style>
+    <script>
+        let tag = this;
+        tag.error = opts.error;
+    </script>
+</gizmo-error>

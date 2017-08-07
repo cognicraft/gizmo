@@ -1,0 +1,29 @@
+<gizmo-link>
+    <span class="link">
+        <a href={transform(opts.data.href)}><gizmo-icon type={'link:'+opts.data.rel} size="tiny"/>{opts.data.label || opts.data.rel}</a>
+    </span>
+    <style scoped>
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+        gizmo-icon{
+            margin-right: .5em;
+            vertical-align: top;
+        }
+    </style>
+    <script>
+        this.transform = function(url){
+            if (!url){
+                return '#';
+            }
+            if (url.startsWith('http://')){
+                return window.location.protocol+ '//'+window.location.host+'/#/n/'+ url.substr(7);
+            } 
+            if (url.startsWith('https://')) {
+                return window.location.protocol+ '//'+window.location.host+'/#/s/'+ url.substr(8);
+            }
+            return url;
+        } 
+    </script>
+</gizmo-link>

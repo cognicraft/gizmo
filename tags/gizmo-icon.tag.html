@@ -1,0 +1,85 @@
+<gizmo-icon>
+    <span class="{size}"><img src={iconURL(opts.type)} /></span>
+    <style scoped>
+        span {
+            display: inline-block;
+            vertical-align: middle;
+            text-align: center;
+        }
+        img {
+            max-width: 100%;
+            max-height: 100%;
+            width: auto;
+            height: auto;
+        }
+        .massive { 
+            width: 128px;
+            height: 128px;
+        }
+        .huge {
+            width: 64px;
+            height: 64px;
+        }
+        .big {
+            width: 48px;
+            height: 48px;
+        }
+        .large {
+            width: 32px;
+            height: 32px;
+        }
+        .small { 
+            width: 24px;
+            height: 24px;
+        }
+        .tiny { 
+            width: 16px;
+            height: 16px;
+        }
+        .mini { 
+            width: 8px;
+            height: 8px;
+        }
+    </style>
+    <script>
+        var iconURLs = {
+            "item:checkpoint": "images/map-marker-variant-tool.svg",
+            "item:system": "images/connection-system.svg",
+            "item:tracks": "images/tube-rails.svg",
+            "item:track": "images/tube-rail.svg",
+            "item:module": "images/lure-module.svg",
+            "item:api-gateway": "images/lure-modules.svg",
+            "item:claim": "images/pass-card.svg",
+            "item:row": "images/row.svg",
+            "item:toggle": "images/round-toggle.svg",
+            "item:error": "images/error.svg",
+            "item:user": "images/man-user.svg",
+            "item:users": "images/users-group.svg",
+
+            "link:self": "images/refresh-button.svg"
+        };
+        this.size = opts.size?opts.size:'m';
+        this.iconURL = function(type){
+            var url = iconURLs[type];
+            if (!url) {
+                if (type.startsWith('link')){
+                    return 'images/foreign.svg';
+                }
+                if (type.startsWith('action:add')){
+                    return 'images/add.svg';
+                }
+                if (type.startsWith('action:delete')){
+                    return 'images/rubbish-bin.svg';
+                }
+                if (type.startsWith('action:remove')){
+                    return 'images/rubbish-bin.svg';
+                }
+                if (type.startsWith('action')){
+                    return 'images/pencil-edit-button.svg';
+                }
+                return 'images/icon.svg';
+            }
+            return url;
+        };
+    </script>
+</gizmo-icon>

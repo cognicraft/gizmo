@@ -1,0 +1,48 @@
+<gizmo-parameter>
+    <div>
+        <select if={isSelect()} onchange={onchange}>
+            <option each={o in selectOptions()} value={o.value} selected={isSelected(o)}>{o.label}</option>
+        </select>
+        <input if={isInput()} name={opts.parameter.name} onchange={onchange} type={opts.parameter.type} value={opts.parameter.value}></input>
+    </div>
+    <style scoped>
+        div,
+        select,
+        input {
+            width: 100%;
+        }
+        input[type=text] {
+            padding:5px; 
+            border:2px solid #ccc; 
+            -webkit-border-radius: 5px;
+            border-radius: 5px;
+        }
+
+        input[type=text]:focus {
+            border-color:#333;
+        }
+    </style>
+    <script>
+        this.isSelect = function(){
+            return opts.parameter.type === 'select';
+        };
+        this.isInput = function(){
+            return opts.parameter.type !== 'select';
+        };
+        this.isSelected = function(o){
+            var s = (o.value === opts.parameter.value);
+            return s;
+        };
+        this.selectOptions = function(){
+            var vs = this.opts.parameter.options || [];
+            return vs;
+        };
+        this.onchange = function(e) {
+            var value = e.target.value;
+            if (this.opts.parameter.type == "number") {
+                value = parseFloat(value);
+            }
+            this.opts.onchange(this.opts.parameter.name, value);
+        };
+    </script>
+</gizmo-parameter>

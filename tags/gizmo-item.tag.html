@@ -1,0 +1,151 @@
+<gizmo-item>
+    <div class="item {root: opts.root, expanded: isExpanded()}">
+        <div class="header" onclick={toggleExpanded}>
+            <div class="type">
+                <gizmo-icon type={'item:'+opts.data.type} size="large"/>
+            </div>
+            <div>
+                <p class="label">{opts.data.label}</p>
+                <p if={opts.data.description} class="description">{opts.data.description}</p>
+            </div>
+        </div>
+        <div class="content">
+            <div class="properties" if={opts.data.properties}>
+                <table>
+                    <tr each={p in opts.data.properties} class="property">
+                        <th class="label">{p.label || p.name}</th>
+                        <td class="value">{p.display || asString(p.value)}</td>
+                        <td class="actions"><gizmo-actions if={propertyActions(p)} data={propertyActions(p)} /></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="data" if={opts.data.data}>
+                <gizmo-json data={opts.data.data} />
+            </div>
+            <div class="errors" if={opts.data.errors}>
+                <gizmo-errors data={opts.data}/>
+            </div>
+            <div class="links" if={opts.data.links}>
+                <gizmo-links data={opts.data} resolve={opts.resolve}/>
+            </div>
+            <div class="actions" if={actions()}>
+                <gizmo-actions data={actions()} resolve={opts.resolve} />
+            </div>
+            <div class="items" if={opts.data.items}>
+                <gizmo-items data={opts.data} resolve={opts.resolve}/>
+            </div>
+        </div>
+    </div>
+    <style scoped>
+        :scope>.item {
+            background-color: white;
+            border-radius: .5rem;
+            border: 1px solid #D3D3D3;
+        }
+        .header{
+            cursor: pointer;
+            overflow: hidden;
+            padding: 1em;
+            border-radius: .5rem;
+        }
+        .item.root>.header{
+            background: linear-gradient(135deg, #90CAF9, #FFFFFF);
+        }
+        .item.expanded>.header{
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+        .header>div {
+            display: inline-block;
+            vertical-align: top;
+        }
+        .header .type{
+            margin-right: .25em;
+        }
+        .header .label{
+            font-size: 1.25em;
+            margin-top: 0;
+            margin-bottom: .25em;
+        }
+        .header .description{
+            color: #505050;
+            margin-top: 0;
+            margin-bottom: .25em;
+        }
+        .content {
+            display: none;
+        }
+        .item.item.expanded>.content{
+            display: block;
+        }
+        .properties,
+        .data,
+        .errors,
+        .links,
+        .actions,
+        .items{
+            margin: 1em;
+        }
+        .properties table{
+            border-collapse: collapse;
+        } 
+        .properties table tr{
+            border-bottom: 1px solid #D3D3D3;
+            height: 2.5em;
+        }
+        .properties table tr:first-child{
+            border-top: 1px solid #5F9EA0;
+        }
+        .properties table tr:last-child{
+            border-bottom: 1px solid #5F9EA0;
+        }
+        .properties table th {
+            padding-right: 1em;
+            background-color: #e3f2fd;
+        }
+        .properties table td:last-child {
+            width: 100%;
+        }
+        .property>.label{
+            min-width: 10em;
+            text-align: right;
+            color: #505050;
+        }
+        .property>.value{
+            min-width: 20em;
+            padding-left: 1em;
+            padding-right: 1em;
+        }
+    </style>
+    <script>
+        let tag = this;
+        this.expanded = opts.expanded;
+        this.isExpanded = function(){
+            return this.expanded;
+        };
+        this.toggleExpanded = function(){
+            this.expanded = !this.expanded;
+        };
+        this.actionMap = {};
+        HyperItem.actions(this.opts.data).forEach(function(a) {
+            let ctx = a.context || '@item';
+            let as = tag.actionMap[ctx] || [];
+            as.push(a);
+            tag.actionMap[ctx] = as;
+        });
+        this.actions = function(){
+            return this.actionMap['@item'];
+        }
+        this.propertyActions = function(property){
+            return this.actionMap[property.name]||[];
+        };
+        this.asString = function(value){
+            switch (typeof value){
+                case 'object':
+                    return JSON.stringify(value);
+                default:
+                    return value;
+            }
+        }
+    </script>
+</gizmo-item>

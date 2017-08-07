@@ -1,0 +1,54 @@
+<gizmo-modal>
+    <div id="modal" class="modal">
+        <div class="content">
+            <span class="close" onclick={close}>&times;</span>
+            <yield />
+        </div>
+    </div>
+    <style scoped>
+        .modal {
+            /*display: none; Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+        .content {
+            background-color: #fefefe;
+            margin: 10% auto; /* 15% from the top and centered */
+            padding: 0;
+            border: 1px solid #888;
+            width: 50%; /* Could be more or less, depending on screen size */
+            border-radius: .5em;
+            border-width: 1px;
+            border-style: solid;
+            border-color: #D3D3D3;
+        }
+        .close {
+            margin-top: .5em;
+            margin-right: .5em;
+            color: #aaa;
+            float: right;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+    <script>
+    let tag = this;
+    tag.close = function(){
+        if (tag.opts.onclose){
+            tag.opts.onclose(tag);
+        }
+    };
+    </script>
+</gizmo-modal>

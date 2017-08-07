@@ -1,0 +1,168 @@
+<gizmo-sort>
+    <div class="sort">
+        <form onsubmit={submit}>
+            <div class="header">
+                <div class="type"><gizmo-icon type={opts.link.rel} size="small"/></div>
+                <div>
+                    <p class="label">{opts.link.label || opts.link.rel}</p>
+                    <p class="description" if={opts.link.description}>{opts.link.description}</p>
+                </div>
+            </div>
+            <div class="components">
+                <table>
+                    <tr each={component, i in components} class="component">
+                        <td>{component.name} {component.order}</td>
+                        <td><button onclick={removeComponent} data-key={i} style="margin-right: 1em;">-</button></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><button onclick={addComponent}>+</button></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="buttons">
+                <button onclick={reset}>Reset</button>
+                <button>Apply</button>
+            </div>
+        </form>
+    </div>
+    <style scoped>
+        .header{
+            background: linear-gradient(135deg, #26a69a, #FFFFFF); 
+            padding: 1em;
+        }
+        .header>div {
+            display: inline-block;
+            vertical-align: top;
+        }
+        .header .type{
+            margin-right: .25em;
+        }
+        .header .label{
+            font-size: 1.25em;
+            margin-top: 0;
+            margin-bottom: .25em;
+        }
+        .header .description{
+            color: #505050;
+            margin-top: 0;
+            margin-bottom: .25em;
+        }
+        .components{
+            margin: 1em;
+        }
+        .components table{
+            border-collapse: collapse;
+        }
+        .buttons {
+            padding: 1em;
+            text-align: right;
+        }
+        button {
+            padding:5px 15px; 
+            background:#ccc; 
+            border:0 none;
+            cursor:pointer;
+            color: #FFFFFF;
+            background-color: #26a69a;
+            border-radius: 2px;
+            box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 1px 5px 0 rgba(0,0,0,0.12), 0 3px 1px -2px rgba(0,0,0,0.2);
+        }
+    </style>
+
+    <script>
+        var tag = this;
+        var link = this.opts.link;
+        var sortParameter = link.parameters[0];
+        this.definitions = sortParameter["components"];
+        this.components = [];
+
+        var definitionsMap = {};
+        for (var i = 0; i < tag.definitions.length; i++) {
+            var definition = tag.definitions[i];
+            definitionsMap[definition.name] = definition;
+        }
+
+        availableComponents() {
+            var cs = [];
+            for (var i = 0; i < tag.definitions.length; i++) {
+                var definition = tag.definitions[i];
+                cs.push({
+                    label: definition.label,
+                    name: definition.name
+                });
+            }
+            return cs;
+        }
+
+        definition(name) {
+            return definitionsMap[name];
+        }
+
+        reset(e) {
+            e.preventDefault();
+            tag.components = [];
+            console.log("Reset Filter!");
+            tag.update();
+        }
+
+        submit(e) {
+            e.preventDefault();
+            console.log("Apply Sort!");
+            console.log(tag.url());
+        }
+
+        createComponent(definition, order) {
+
+            var component = {
+                'name': definition['name'],
+                'order': definition['orders'][0].order,
+            };
+            if (order) {
+                component.order = order;
+            }
+
+            return component;
+        }
+
+        addComponent(e) {
+            e.preventDefault();
+            var definition = tag.definitions[0];
+            tag.components.push(tag.createComponent(definition));
+            tag.update();
+        }
+
+        removeComponent(e) {
+            e.preventDefault();
+            var key = e.target.dataset.key;
+            this.components.splice(key, 1);
+            tag.update();
+        }
+
+        onChangeComponent(key, newName) {
+            console.log("Sort-Component-Changed", key, newName);
+            var value = tag.createComponent(tag.definition(newName));
+            tag.components[key] = value;
+            tag.update();
+        }
+
+        onChangeOperator(key, newOperator) {
+            console.log("Sort-Operator-Changed", key, newOperator);
+            var name = this.components[key].name;
+            var value = tag.createComponent(tag.definition(name), newOperator);
+            tag.components[key] = value;
+            tag.update();
+        }
+
+        url() {
+            var t = new URITemplate(tag.opts.link.template);
+            var vs = [];
+            for (var i = 0; i < tag.components.length; i++) {
+                var c = tag.components[i];
+                var v = [c.name, c.order];
+                vs.push(v.join());
+            }
+            var r = t.expand({sort: vs});
+            return r;
+        }
+    </script>
+</gizmo-sort>

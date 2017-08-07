@@ -1,0 +1,50 @@
+<gizmo-explorer>
+    <div class="explorer">
+        <form class="location" action={transform(url)}>
+            <input class="url" value={url} onchange={onchange}></input>
+            <button class="go" type="submit">Go</button>
+        </form>
+        <gizmo-item if={data} data={data} expanded={true} root={true} />
+    </div>
+    <style>
+        .location{
+            width: 100%;
+            margin-bottom: 1em;
+        }
+        .location>.url{
+            width: calc(100% - 85px);
+        }
+        .location>.go{
+            width: 80px;
+        }
+    </style>
+    <script>
+        let tag = this;
+        this.url = this.opts.url;
+        this.data = null;
+        this.transform = function(url){
+            if (!url){
+                return url;
+            }
+            let t = url;
+            if (url.startsWith('http://')){
+                t = window.location.protocol+ '//'+window.location.host+'/#/n/'+ url.substr(7);
+            } else if (url.startsWith('https://')) {
+                t = window.location.protocol+ '//'+window.location.host+'/#/s/'+ url.substr(8);
+            }
+            return t;
+        }; 
+        this.onchange = function(e) {
+            var value = e.target.value;
+            tag.update({url: value});
+        };
+        let load = function(url){
+          Gizmo.GET(url).then(function(response) {
+              return response.json();
+            }).then(function(item) {
+              tag.update({data: item});
+            });
+        };
+        load(this.url);
+    </script>
+</gizmo-explorer>

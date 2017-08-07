@@ -1,0 +1,143 @@
+<gizmo-action>
+    <div class="action">
+        <form action={opts.data.href} enctype={opts.data.type} method={opts.data.method} onsubmit={submit}>
+            <div class="header">
+                <div class="type"><gizmo-icon type={opts.data.rel} size="small"/></div>
+                <div>
+                    <p class="label">{opts.data.label}</p>
+                    <p class="description" if={opts.data.description}>{opts.data.description}</p>
+                </div>
+            </div>
+            <div class="parameters" if={visibleParameters()}>
+                <table>
+                    <tr each={p in visibleParameters()} class="parameter">
+                        <th class="label">{p.label || p.name}</th>
+                        <td class="value"><gizmo-parameter parameter={p} onchange={onchange}/></td>
+                    </tr>
+                </table>
+            </div>
+            <gizmo-errors if={hasError()} data={this.result} />
+            <div class="buttons">
+                <input class="button primary" type="submit" value={submitLabel()}/>
+            </div>
+        </form>
+    </div>
+    <style scoped>
+        .header{
+            background: linear-gradient(135deg, #66A3FF, #FFFFFF); 
+            padding: 1em;
+        }
+        .header>div {
+            display: inline-block;
+            vertical-align: top;
+        }
+        .header .type{
+            margin-right: .25em;
+        }
+        .header .label{
+            font-size: 1.25em;
+            margin-top: 0;
+            margin-bottom: .25em;
+        }
+        .header .description{
+            color: #505050;
+            margin-top: 0;
+            margin-bottom: .25em;
+        }
+        .parameters{
+            margin: 1em;
+        }
+        .parameters table{
+            border-collapse: collapse;
+        } 
+        .parameters table tr{
+            border-bottom: 1px solid #D3D3D3;
+            height: 2.5em;
+        }
+        .parameters table tr:first-child{
+            border-top: 1px solid #5F9EA0;
+        }
+        .parameters table tr:last-child{
+            border-bottom: 1px solid #5F9EA0;
+        }
+        .parameters table th {
+            padding-right: 1em;
+            background-color: #e3f2fd;
+        }
+        .parameters table td:last-child {
+            width: 100%;
+        }
+        .parameter>.label{
+            min-width: 10em;
+            text-align: right;
+            color: #505050;
+        }
+        .parameter>.value{
+            min-width: 20em;
+            padding-left: 1em;
+            padding-right: 1em;
+        }
+        .buttons {
+            padding: 1em;
+            text-align: right;
+        }
+        input[type=submit] {
+            padding:5px 15px; 
+            background:#ccc; 
+            border:0 none;
+            cursor:pointer;
+            color: #FFFFFF;
+            background-color: #66A3FF;
+            border-radius: 2px;
+            box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 1px 5px 0 rgba(0,0,0,0.12), 0 3px 1px -2px rgba(0,0,0,0.2);
+        }
+    </style>
+    <script>
+        var tag = this;
+        this.result = {};
+        this.values = HyperItem.values(HyperItem.parameters(this.opts.data));
+        this.hasError = function(){
+            return tag.result.errors?true:false;
+        };
+
+        this.visibleParameters = function(){
+            return HyperItem.parameters(this.opts.data).filter(function(p){
+                return p.type != 'hidden';
+            });
+        };
+
+        this.submitLabel = function(){
+            if (tag.opts.data.ok){
+                return tag.opts.data.ok;
+            }
+            if (tag.opts.data.label){
+                return tag.opts.data.label;
+            }
+            return tag.opts.data.rel;
+        }
+
+        this.onchange = function(k, v) {
+            if (typeof k === "string") {
+                tag.values[k] = v;
+            }
+        };
+
+        this.submit = function(e) {
+            e.preventDefault();
+            Gizmo.submit(tag.opts.data, tag.values)
+            .then(function (response) {
+                return response.json()
+                    .then(function(json){
+                        return response.ok? json: Promise.reject(json);
+                    });
+            }).then(function(json){
+                console.log("success", json);
+                location.reload();
+                tag.update({result: json});
+            }).catch(function(json){
+                console.log("failure", json);
+                tag.update({result: json});
+            });
+        };
+    </script>
+</gizmo-action>

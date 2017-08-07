@@ -1,0 +1,21 @@
+<gizmo-action-dialog>
+    <gizmo-modal onclose={close}>
+        <gizmo-action data={parent.opts.data}/>
+    </gizmo-modal>
+    <style scoped>
+        gizmo-action>.action {
+            border-radius: .5rem;
+            border: 1px solid #D3D3D3;
+        }
+        gizmo-action>.action .header{
+            border-top-left-radius: .5rem;
+            border-top-right-radius: .5rem;
+        }
+    </style>
+    <script>
+        let tag = this;
+        this.close = function(){
+            tag.unmount();
+        };
+    </script>
+</gizmo-action-dialog>

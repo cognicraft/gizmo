@@ -1,0 +1,224 @@
+{
+    "label": "Alice",
+    "id": "8abb6cdb-4279-5c35-9351-fd3b373f0b7f",
+    "type": "user",
+    "properties": [{
+            "name": "name",
+            "value": "Alice",
+            "type": "text",
+            "label": "Name"
+        },
+        {
+            "name": "status",
+            "value": "activated",
+            "type": "text",
+            "label": "Status"
+        },
+        {
+            "name": "last-login",
+            "value": "2017-08-03T11:49:48.464243404Z",
+            "type": "date",
+            "label": "Last Login",
+            "display": "2017-08-03T11:49:48Z"
+        }
+    ],
+    "data": {
+        "foo": "bar",
+        "baz": 3
+    },
+    "errors": [{
+            "code": "misc:error",
+            "message": "This is an error."
+        },
+        {
+            "code": "misc:error",
+            "message": "This is another error."
+        }
+    ],
+    "links": [{
+            "label": "Reload",
+            "rel": "self",
+            "href": "http://hi.cognicraft.net/users/8abb6cdb-4279-5c35-9351-fd3b373f0b7f"
+        },
+        {
+            "label": "Users",
+            "rel": "users",
+            "href": "http://hi.cognicraft.net/users/"
+        }
+    ],
+    "actions": [{
+            "label": "Change Name",
+            "rel": "change-name",
+            "href": "http://hi.cognicraft.net/users/8abb6cdb-4279-5c35-9351-fd3b373f0b7f",
+            "encoding": "application/json",
+            "method": "POST",
+            "parameters": [{
+                    "name": "@action",
+                    "type": "hidden",
+                    "value": "change-name"
+                },
+                {
+                    "label": "Name",
+                    "name": "name",
+                    "type": "text",
+                    "value": "Alice",
+                    "required": true
+                }
+            ],
+            "context": "name"
+        },
+        {
+            "label": "Deactivate",
+            "rel": "deactivate",
+            "href": "http://hi.cognicraft.net/users/8abb6cdb-4279-5c35-9351-fd3b373f0b7f",
+            "encoding": "application/json",
+            "method": "POST",
+            "parameters": [{
+                "name": "@action",
+                "type": "hidden",
+                "value": "deactivate"
+            }],
+            "context": "status",
+            "ok": "Activate",
+            "cancel": "Cancel"
+        },
+        {
+            "label": "Login",
+            "rel": "login",
+            "href": "http://hi.cognicraft.net/users/8abb6cdb-4279-5c35-9351-fd3b373f0b7f",
+            "encoding": "application/json",
+            "method": "POST",
+            "parameters": [{
+                "name": "@action",
+                "type": "hidden",
+                "value": "login"
+            }],
+            "context": "last-login",
+            "ok": "Login",
+            "cancel": "Cancel"
+        },
+        {
+            "label": "Delete",
+            "rel": "delete",
+            "href": "http://hi.cognicraft.net/users/8abb6cdb-4279-5c35-9351-fd3b373f0b7f",
+            "method": "DELETE"
+        }
+    ],
+    "items": [{
+        "label": "Claims",
+        "rel": "claims",
+        "type": "claims",
+        "actions": [{
+            "label": "Add Claim",
+            "rel": "add-claim",
+            "href": "http://hi.cognicraft.net/users/8abb6cdb-4279-5c35-9351-fd3b373f0b7f",
+            "encoding": "application/json",
+            "method": "POST",
+            "parameters": [{
+                    "name": "@action",
+                    "type": "hidden",
+                    "value": "add-claim"
+                },
+                {
+                    "label": "Type",
+                    "name": "type",
+                    "type": "text",
+                    "required": true
+                },
+                {
+                    "label": "Value",
+                    "name": "value",
+                    "type": "text",
+                    "required": true
+                }
+            ],
+            "ok": "Add Claim",
+            "cancel": "Cancel"
+        }],
+        "items": [{
+                "label": "role → admin",
+                "type": "claim",
+                "properties": [{
+                        "name": "type",
+                        "value": "role",
+                        "type": "text",
+                        "label": "Type"
+                    },
+                    {
+                        "name": "value",
+                        "value": "admin",
+                        "type": "text",
+                        "label": "Value"
+                    }
+                ],
+                "actions": [{
+                    "label": "Remove Claim",
+                    "rel": "remove-claim",
+                    "href": "http://hi.cognicraft.net/users/8abb6cdb-4279-5c35-9351-fd3b373f0b7f",
+                    "encoding": "application/json",
+                    "method": "POST",
+                    "parameters": [{
+                            "name": "@action",
+                            "type": "hidden",
+                            "value": "remove-claim"
+                        },
+                        {
+                            "name": "type",
+                            "type": "hidden",
+                            "value": "role"
+                        },
+                        {
+                            "name": "value",
+                            "type": "hidden",
+                            "value": "admin"
+                        }
+                    ],
+                    "ok": "Remove Claim",
+                    "cancel": "Cancel"
+                }]
+            },
+            {
+                "label": "role → super-user",
+                "type": "claim",
+                "properties": [{
+                        "name": "type",
+                        "value": "role",
+                        "type": "text",
+                        "label": "Type"
+                    },
+                    {
+                        "name": "value",
+                        "value": "super-user",
+                        "type": "text",
+                        "label": "Value"
+                    }
+                ],
+                "actions": [{
+                    "label": "Remove Claim",
+                    "rel": "remove-claim",
+                    "href": "http://hi.cognicraft.net/users/8abb6cdb-4279-5c35-9351-fd3b373f0b7f",
+                    "encoding": "application/json",
+                    "method": "POST",
+                    "parameters": [{
+                            "name": "@action",
+                            "type": "hidden",
+                            "value": "remove-claim"
+                        },
+                        {
+                            "name": "type",
+                            "type": "hidden",
+                            "value": "role"
+                        },
+                        {
+                            "name": "value",
+                            "type": "hidden",
+                            "value": "super-user"
+                        }
+                    ],
+                    "ok": "Remove Claim",
+                    "cancel": "Cancel"
+                }]
+            }
+        ]
+    }]
+}

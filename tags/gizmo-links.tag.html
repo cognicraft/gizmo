@@ -1,0 +1,62 @@
+<gizmo-links>
+    <ul>
+        <li each={l in opts.data.links}>
+            <span if={l.rel == 'filter'} class="filter" onclick={openFilterDialog}><gizmo-icon type="link:filter" size="tiny"/>{label(l)}</span>
+            <span if={l.rel == 'sort'} class="sort" onclick={openSortDialog}><gizmo-icon type="link:filter" size="tiny"/>{label(l)}</span>
+            <span if={isSimpleLink(l)} class="simple"><gizmo-link data={l} resolve={parent.opts.resolve}/></span>
+            <span if={isOtherLink(l)} class="templated" onclick={openLinkDialog}><gizmo-icon type="link:filter" size="tiny"/>{label(l)}</span>
+        </li>
+    </ul>
+    <style scoped>
+        ul {
+            display: inline-block;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        ul>li {
+            display: inline-block;
+            vertical-align: middle;
+            padding: .25rem 1rem;
+            margin: .25rem;
+            text-align: center;
+            color: #FFFFFF;
+            vertical-align: middle;
+            background-color: #26a69a;
+            border-radius: 2px;
+            box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 1px 5px 0 rgba(0,0,0,0.12), 0 3px 1px -2px rgba(0,0,0,0.2);
+        }
+    </style>
+    <script>
+        this.openFilterDialog = function(e){
+            let link = e.item.l;
+            let dialog = document.createElement("gizmo-filter-dialog");
+            document.body.appendChild(dialog);
+            riot.mount(dialog, {link: link});
+        };
+        this.openSortDialog = function(e){
+            let link = e.item.l;
+            let dialog = document.createElement("gizmo-sort-dialog");
+            document.body.appendChild(dialog);
+            riot.mount(dialog, {link: link});
+        };
+        this.openLinkDialog = function(e){
+            let link = e.item.l;
+            let dialog = document.createElement("gizmo-link-template-dialog");
+            document.body.appendChild(dialog);
+            riot.mount(dialog, {link: link});
+        };
+        this.isSimpleLink = function(link){
+            return HyperItem.isSimpleLink(link);
+        };
+        this.isOtherLink = function(link){
+            if (link.rel == 'filter' || link.rel == 'sort'){
+                return false;
+            }
+            return HyperItem.isComplexLink(link);
+        };
+        this.label = function(link){
+            return link.label || link.rel;
+        };
+    </script>
+</gizmo-links>

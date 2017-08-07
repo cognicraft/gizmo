@@ -1,0 +1,54 @@
+<gizmo-filter-component>
+    <div style="display: inline-block;">
+        <select onchange={changeFilterComponent}>
+            <option each={a in parent.availableComponents()} selected={isSelectedName(a.name)} value={a.name}>{a.label}</option>
+        </select>
+
+        <select if={definition.operators.length>1} onchange={changeOperator}>
+            <option each={o in definition.operators} selected={isSelectedOperator(o.operator)} value={o.operator}>{o.label || o.operator}</option>
+        </select>
+
+        <virtual if={opts.component.operator ==='bet' }>
+            <input if={definition.type !='select' } onchange={changeValue} data-key="0" type={definition.type}></input>
+            and
+            <input if={definition.type !='select' } onchange={changeValue} data-key="1" type={definition.type}></input>
+        </virtual>
+
+        <virtual if={opts.component.operator !='bet' }>
+            <select if={definition.type ==='select' } onchange={changeValue}>
+                <option each={v in definition.options} value={v.value}>{v.label || v.value}</option>
+            </select>
+            <input if={definition.type !='select' } onchange={changeValue} type={definition.type}></input>
+        </virtual>
+    </div>
+    <script>
+        var tag = this;
+        this.definition = this.parent.definition(this.opts.component.name);
+
+        isSelectedName(n) {
+            return n === this.opts.component.name;
+        }
+
+        isSelectedOperator(n) {
+            return n === this.opts.component.operator;
+        }
+
+        changeFilterComponent(e) {
+            var s = e.target;
+            tag.parent.onChangeFilterComponent(tag.opts.key, s.options[s.selectedIndex].value);
+        }
+
+        changeOperator(e) {
+            var s = e.target;
+            tag.parent.onChangeFilterOperator(tag.opts.key, s.options[s.selectedIndex].value);
+        }
+
+        changeValue(e) {
+            var s = e.target;
+            var key = e.target.dataset.key || 0;
+            tag.parent.onChangeFilterValue(tag.opts.key, key, s.value);
+        }
+
+        // this.value = opts.definition.value;
+    </script>
+</gizmo-filter-component>

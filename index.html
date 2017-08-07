@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Gizmo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/gizmo.css">
+    <link rel="icon" type="image/png" href="images/favicon.png">
+
+    <!--
+    <script src="tags/gizmo-chart.tag" type="riot/tag"></script>
+    <link href="js/c3/c3.min.css" rel="stylesheet">
+    <script src="js/c3/c3.min.js" type="text/javascript"></script>
+    <script src="js/d3/d3.min.js" type="text/javascript"></script>
+    -->
+    <script src="js/riot+compiler.js"></script>
+    <script src="js/URI.js"></script>
+    <script src="js/hyper-item.js"></script>
+    <script src="js/gizmo.js"></script>
+
+    <script src="tags/gizmo-explorer.tag.html" type="riot/tag"></script>
+    <script src="tags/gizmo-icon.tag.html" type="riot/tag"></script>
+    <script src="tags/gizmo-json.tag.html" type="riot/tag"></script>
+    <script src="tags/gizmo-popover.tag.html" type="riot/tag"></script>
+    <script src="tags/gizmo-modal.tag.html" type="riot/tag"></script>
+
+    <script src="tags/gizmo-items.tag.html" type="riot/tag"></script>
+    <script src="tags/gizmo-item.tag.html" type="riot/tag"></script>
+    <script src="tags/gizmo-links.tag.html" type="riot/tag"></script>
+    <script src="tags/gizmo-link.tag.html" type="riot/tag"></script>
+    <script src="tags/gizmo-actions.tag.html" type="riot/tag"></script>
+    <script src="tags/gizmo-action-dialog.tag.html" type="riot/tag"></script>
+    <script src="tags/gizmo-action.tag.html" type="riot/tag"></script>
+    <script src="tags/gizmo-parameter.tag.html" type="riot/tag"></script>
+    <script src="tags/gizmo-errors.tag.html" type="riot/tag"></script>
+    <script src="tags/gizmo-error.tag.html" type="riot/tag"></script>
+    <script src="tags/gizmo-filter-component.tag.html" type="riot/tag"></script>
+    <script src="tags/gizmo-filter.tag.html" type="riot/tag"></script>
+    <script src="tags/gizmo-filter-dialog.tag.html" type="riot/tag"></script>
+    <script src="tags/gizmo-sort-dialog.tag.html" type="riot/tag"></script>
+    <script src="tags/gizmo-sort.tag.html" type="riot/tag"></script>
+    <script src="tags/gizmo-link-template-dialog.tag.html" type="riot/tag"></script>
+    <script src="tags/gizmo-link-template.tag.html" type="riot/tag"></script>
+</head>
+
+<body>
+    <gizmo-explorer></gizmo-explorer>
+    <script>    
+        let prefixN = '#/n/';
+        let prefixS = '#/s/';
+        let rootURL = "";
+        let hashURL = function(url){
+            let hash = window.location.hash;
+            if(hash) {
+                if (hash.startsWith(prefixN)){
+                    return 'http://'+hash.substr(prefixN.length);
+                }
+                if (hash.startsWith(prefixS)){
+                    return 'https://'+hash.substr(prefixS.length);
+                }
+            }
+            return url;
+        }
+        fetch('config.json').then(function(response) {
+              return response.json();
+            }).then(function(config) {
+                rootURL = config["root"];
+                let url = hashURL(rootURL);
+                window.onhashchange = function(){
+                    let url = hashURL(rootURL);
+                    riot.mount('gizmo-explorer', {url: url});
+                }
+                riot.mount('gizmo-explorer', {url: url});
+            });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,51 @@
+<gizmo-json>
+    <style>
+        :scope {
+            font-family: monospace;
+            white-space: pre;
+            background: #FFFFFF;
+        }
+        .string {
+            color: green;
+        }
+        .number {
+            color: darkorange;
+        }
+        .boolean {
+            color: blue;
+        }
+        .null {
+            color: magenta;
+        }
+        .key {
+            color: red;
+        }
+    </style>
+    <script>
+        var syntaxHighlight = function (json) {
+            json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+            return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
+                var cls = 'number';
+                if (/^"/.test(match)) {
+                    if (/:$/.test(match)) {
+                        cls = 'key';
+                    } else {
+                        cls = 'string';
+                    }
+                } else if (/true|false/.test(match)) {
+                    cls = 'boolean';
+                } else if (/null/.test(match)) {
+                    cls = 'null';
+                }
+                return '<span class="' + cls + '">' + match + '</span>';
+            });
+        };
+        let tag = this;
+        tag.data = opts.data;
+        let refresh = function(){
+            tag.root.innerHTML = (tag.data)?syntaxHighlight(JSON.stringify(tag.data, null, 2)):"";
+        }
+        this.on('update', refresh);
+        this.on('mount', refresh);
+    </script>
+</gizmo-json>

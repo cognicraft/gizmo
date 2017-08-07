@@ -1,0 +1,14 @@
+html {
+    height: 100%;
+    width: 100%;
+}
+*, ::before, ::after {
+    box-sizing: border-box;
+}
+body {
+    background-color:  #EAEAEA;
+    padding: 2em;
+    background-attachment: fixed;
+    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+    color: black;
+}

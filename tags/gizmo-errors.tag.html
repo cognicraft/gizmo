@@ -1,0 +1,13 @@
+<gizmo-errors>
+    <ul>
+        <li each={e in opts.data.errors}>
+            <gizmo-error error={e}/>
+        </li>
+    </ul>
+    <style>
+        :scope>ul {
+            list-style: none;
+            padding: 0;
+        }
+    </style>
+</gizmo-errors>

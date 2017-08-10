@@ -1,0 +1,80 @@
+<gizmo-authenticator>
+    <div if={isConnected()}>
+        <div class="status connected"></div>
+        <button onclick={logout}>Logout</button>
+    </div>
+    <div if={!isConnected()}>
+        <div class="status disconnected"></div>
+        <label>URL</label><input type="text" value={url} name="url" onchange={onchange}/>
+        <label>Key</label><input type="text" value={key} name="key" onchange={onchange}/>
+        <label>Secret</label><input type="password" value={password} name="secret" onchange={onchange}/>
+        <button onclick={login}>Login</button>
+    </div>
+    <style scoped>
+        label{
+            margin-left: 1em;
+            margin-right: .25em;
+        }
+        .status {
+            width: 16px;
+            height: 16px;
+            vertical-align: middle;
+            content: "";
+            display: inline-block;
+        }
+        .status.connected {
+            background-color: green;
+        }
+        .status.disconnected{
+            background-color: red;
+        }
+        input[name=url] {
+            min-width: 350px;
+        }
+    </style>
+    <script>
+        let tag = this;
+
+        this.url = "";
+        this.key = "";
+        this.secret = "";
+
+        this.onchange = function(e){
+            let name = e.target.name;
+            let value = e.target.value;
+            let change = {};
+            change[name] = value;
+            tag.update(change);
+        };
+
+        this.isConnected = function(){
+            return Gizmo.authenticator.isConnected();
+        };
+
+        this.logout = function(){
+            Gizmo.authenticator.logout();
+        };
+
+        this.login = function(){ 
+            Gizmo.authenticator.configure({url: tag.url});
+            Gizmo.authenticator.login(tag.key, tag.secret)
+        };
+
+        let refresh = function(){
+            tag.update();
+        };
+        
+        this.on('mount', function(){
+            let con = Gizmo.authenticator.lastConnection();
+            if (con){
+                tag.update({'url': con['url']});
+            }
+            Gizmo.authenticator.on('*', refresh);
+        });
+        
+        this.on('unmount', function(){
+            Gizmo.authenticator.off('*', refresh);
+        });
+
+    </script>
+</gizmo-authenticator>

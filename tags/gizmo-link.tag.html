@@ -1,6 +1,6 @@
 <gizmo-link>
     <span class="link">
-        <a href={transform(opts.data.href)}><gizmo-icon type={'link:'+opts.data.rel} size="tiny"/>{opts.data.label || opts.data.rel}</a>
+        <a href={transform(opts.data.href)} onclick={load}><gizmo-icon type={'link:'+opts.data.rel} size="tiny"/>{opts.data.label || opts.data.rel}</a>
     </span>
     <style scoped>
         a {
@@ -18,12 +18,18 @@
                 return '#';
             }
             if (url.startsWith('http://')){
-                return window.location.protocol+ '//'+window.location.host+'/#/n/'+ url.substr(7);
+                return '#/n/'+ url.substr(7);
             } 
             if (url.startsWith('https://')) {
-                return window.location.protocol+ '//'+window.location.host+'/#/s/'+ url.substr(8);
+                return '#/s/'+ url.substr(8);
             }
             return url;
-        } 
+        };
+        this.load = function(e){
+            let reload = (e.toElement.href == window.location.href); 
+            if (reload){
+                window.dispatchEvent(new HashChangeEvent("hashchange"));
+            }
+        };
     </script>
 </gizmo-link>

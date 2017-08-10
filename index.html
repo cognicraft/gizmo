@@ -16,12 +16,15 @@
     <script src="js/c3/c3.min.js" type="text/javascript"></script>
     <script src="js/d3/d3.min.js" type="text/javascript"></script>
     -->
+
     <script src="js/riot+compiler.js"></script>
     <script src="js/URI.js"></script>
     <script src="js/hyper-item.js"></script>
+    <script src="js/store.js"></script>
     <script src="js/gizmo.js"></script>
 
     <script src="tags/gizmo-explorer.tag.html" type="riot/tag"></script>
+    <script src="tags/gizmo-authenticator.tag.html" type="riot/tag"></script>
     <script src="tags/gizmo-icon.tag.html" type="riot/tag"></script>
     <script src="tags/gizmo-json.tag.html" type="riot/tag"></script>
     <script src="tags/gizmo-popover.tag.html" type="riot/tag"></script>
@@ -74,6 +77,8 @@
                     riot.mount('gizmo-explorer', {url: url});
                 }
                 riot.mount('gizmo-explorer', {url: url});
+                Gizmo.authenticator.on('logged-in', riot.update());
+                Gizmo.authenticator.on('logged-out', riot.update());
             });
     </script>
 </body>

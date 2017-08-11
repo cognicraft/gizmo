@@ -7,6 +7,9 @@
             <div>
                 <p class="label">{opts.data.label}</p>
                 <p if={opts.data.description} class="description">{opts.data.description}</p>
+                <ul if="{hasTags()}" class="tags">
+                    <li each="{itag in iTags()}"><gizmo-tag tag={itag}/></li>
+                </ul>
             </div>
         </div>
         <div class="content">
@@ -59,10 +62,10 @@
             display: inline-block;
             vertical-align: top;
         }
-        .header .type{
+        .header>.type{
             margin-right: .25em;
         }
-        .header .label{
+        .header>.label{
             font-size: 1.25em;
             margin-top: 0;
             margin-bottom: .25em;
@@ -116,10 +119,32 @@
             padding-left: 1em;
             padding-right: 1em;
         }
+        .tags {
+            display: inline-block;
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+        .tags li {
+            margin: 0;
+            padding: 0;
+            margin-right: .25em;
+            display: inline;
+        }
     </style>
     <script>
         let tag = this;
         this.expanded = opts.expanded;
+        this.hasTags = function(){
+            return tag.iTags().length > 0;
+        };
+        this.iTags = function(){
+            let tags = HyperItem.items(tag.opts.data).find(HyperItem.byRel('tags'));
+            if (!tags){
+                return [];
+            }
+            return HyperItem.items(tags);
+        }
         this.isExpanded = function(){
             return this.expanded;
         };

@@ -1,0 +1,42 @@
+<gizmo-tag>
+    <div class="tag {getType()}"><span class="type">{getType()}</span><span class="label">{opts.tag.label}</span></div>
+    <style>
+        .tag, .type, .label{
+            display: inline-block;
+            padding: .25rem;
+            font-size: .75rem;
+        }
+        .tag>.type{
+            background: #555555;
+            border-top-left-radius: 2px;
+            border-bottom-left-radius: 2px;
+        }
+        .tag>.label{
+            border-top-right-radius: 2px;
+            border-bottom-right-radius: 2px;
+        }
+        .system-type .label {
+            background: red;
+            color: #ffffff;
+        }
+        .checkpoint-track .label{
+            background: blue;
+            color: #ffffff;
+        }
+        .checkpoint .label{
+            background: yellow;
+            color: #ffffff;
+        }
+        .train-number .label{
+            background: magenta;
+            color: #ffffff;
+        }
+    </style>
+    <script>
+        let tag = this;
+        this.value = HyperItem.properties(opts.tag).find(HyperItem.byName('value')).value;
+        this.getType = function(){
+            return tag.value.split(':')[0];
+        };
+    </script>
+</gizmo-tag>

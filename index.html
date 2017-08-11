@@ -29,6 +29,7 @@
     <script src="tags/gizmo-json.tag.html" type="riot/tag"></script>
     <script src="tags/gizmo-popover.tag.html" type="riot/tag"></script>
     <script src="tags/gizmo-modal.tag.html" type="riot/tag"></script>
+    <script src="tags/gizmo-tag.tag.html" type="riot/tag"></script>
 
     <script src="tags/gizmo-items.tag.html" type="riot/tag"></script>
     <script src="tags/gizmo-item.tag.html" type="riot/tag"></script>
@@ -50,7 +51,9 @@
 </head>
 
 <body>
-    <gizmo-explorer></gizmo-explorer>
+    <header></header>
+    <div class="content"><gizmo-explorer></gizmo-explorer></div>
+    <footer></footer>
     <script>    
         let prefixN = '#/n/';
         let prefixS = '#/s/';

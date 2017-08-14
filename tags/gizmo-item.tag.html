@@ -18,7 +18,7 @@
                     <tr each={p in opts.data.properties} class="property">
                         <th class="label">{p.label || p.name}</th>
                         <td class="value">{p.display || asString(p.value)}</td>
-                        <td class="actions"><gizmo-actions if={propertyActions(p)} data={propertyActions(p)} /></td>
+                        <td class="actions"><gizmo-actions if={propertyActions(p)} actions={propertyActions(p)} /></td>
                     </tr>
                 </table>
             </div>
@@ -28,14 +28,14 @@
             <div class="errors" if={opts.data.errors}>
                 <gizmo-errors data={opts.data}/>
             </div>
-            <div class="links" if={opts.data.links}>
-                <gizmo-links data={opts.data} resolve={opts.resolve}/>
+            <div class="links" if={links()}>
+                <gizmo-links links={links()} resolve={opts.resolve}/>
             </div>
             <div class="actions" if={actions()}>
-                <gizmo-actions data={actions()} resolve={opts.resolve} />
+                <gizmo-actions actions={actions()} resolve={opts.resolve} />
             </div>
-            <div class="items" if={opts.data.items}>
-                <gizmo-items data={opts.data} resolve={opts.resolve}/>
+            <div class="items" if={items()}>
+                <gizmo-items items={items()} resolve={opts.resolve}/>
             </div>
         </div>
     </div>
@@ -61,6 +61,10 @@
         .header>div {
             display: inline-block;
             vertical-align: top;
+        }
+        .header p{
+            margin-top: 0;
+            margin-bottom: .25em;
         }
         .header>.type{
             margin-right: .25em;
@@ -159,8 +163,16 @@
             tag.actionMap[ctx] = as;
         });
         this.actions = function(){
-            return this.actionMap['@item'];
-        }
+            return tag.actionMap['@item'];
+        };
+        this.links = function(){
+            return HyperItem.links(tag.opts.data);
+        };
+        this.items = function(){
+            return HyperItem.items(tag.opts.data).filter(function(item){
+                return (item.rel != 'tags');
+            });
+        };
         this.propertyActions = function(property){
             return this.actionMap[property.name]||[];
         };

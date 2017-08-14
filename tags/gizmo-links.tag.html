@@ -1,6 +1,6 @@
 <gizmo-links>
     <ul>
-        <li each={l in opts.data.links}>
+        <li each={l in opts.links}>
             <span if={l.rel == 'filter'} class="filter" onclick={openFilterDialog}><gizmo-icon type="link:filter" size="tiny"/>{label(l)}</span>
             <span if={l.rel == 'sort'} class="sort" onclick={openSortDialog}><gizmo-icon type="link:filter" size="tiny"/>{label(l)}</span>
             <span if={isSimpleLink(l)} class="simple"><gizmo-link data={l} resolve={parent.opts.resolve}/></span>

@@ -1,6 +1,6 @@
 <gizmo-items>
     <ul class="{collection:isCollection()}">
-        <li each={r in opts.data.items}><gizmo-item data={r} resolve={parent.opts.resolve}/></li>
+        <li each={r in opts.items}><gizmo-item data={r} resolve={parent.opts.resolve}/></li>
     </ul>
     <style scoped>
         ul {
@@ -36,7 +36,7 @@
     </style>
     <script>
         this.isCollection = function(){
-            var items = opts.data.items || [];
+            var items = opts.items || [];
             if (items.length > 0){
                 return items[0].rel?false:true;
             }

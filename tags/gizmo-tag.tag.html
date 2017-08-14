@@ -1,10 +1,10 @@
 <gizmo-tag>
-    <div class="tag {getType()}"><span class="type">{getType()}</span><span class="label">{opts.tag.label}</span></div>
+    <div class="tag {getType()}"><span class="type">{getType()}</span><span class="label" style={getLabelStyle()}>{opts.tag.label}</span></div>
     <style>
         .tag, .type, .label{
             display: inline-block;
             padding: .25rem;
-            font-size: .75rem;
+            font-size: .6rem;
         }
         .tag>.type{
             background: #555555;
@@ -14,21 +14,7 @@
         .tag>.label{
             border-top-right-radius: 2px;
             border-bottom-right-radius: 2px;
-        }
-        .system-type .label {
-            background: red;
-            color: #ffffff;
-        }
-        .checkpoint-track .label{
-            background: blue;
-            color: #ffffff;
-        }
-        .checkpoint .label{
-            background: yellow;
-            color: #ffffff;
-        }
-        .train-number .label{
-            background: magenta;
+            background: #0288D1;
             color: #ffffff;
         }
     </style>
@@ -38,5 +24,23 @@
         this.getType = function(){
             return tag.value.split(':')[0];
         };
+        this.getLabelStyle = function (){
+            if (tag.value == 'system-type:bbt'){
+                return 'background: #0288D1;'
+            } 
+            if (tag.value == 'system-type:pvs'){
+                return 'background: #43A047;'
+            }
+            if (tag.value == 'system-type:drd'){
+                return 'background: #795548;'
+            }
+            if (tag.value == 'system-type:ded'){
+                return 'background: #607D8B;'
+            }
+            if (tag.value == 'system-type:wild'){
+                return 'background: #673AB7;'
+            }
+            return 'background: #0288D1;'
+        }
     </script>
 </gizmo-tag>

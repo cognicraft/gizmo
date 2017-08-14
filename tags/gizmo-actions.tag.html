@@ -1,6 +1,6 @@
 <gizmo-actions>
     <ul>
-        <li each={a, i in opts.data}>
+        <li each={a, i in opts.actions}>
             <span if={isComplexAction(a)} class="complex" onclick={open}><gizmo-icon type={'action:'+a.rel} size="tiny"/>{label(a)}</span>
             <span if={isSimpleAction(a)} class="simple" onclick={submit}><gizmo-icon type={'action:'+a.rel} size="tiny"/>{label(a)}</span>
         </li>

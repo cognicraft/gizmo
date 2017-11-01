@@ -1,0 +1,56 @@
+<gizmo-sash-container>
+    <div class="sash-container" ref="container">
+        <div class="left" style="width: {leftWidth}px;">left ({leftWidth})</div><div class="sash" ref="sash">&nbsp;</div><div class="right" style="width: {rightWidth}px;">right ({rightWidth})</div>
+    </div>
+    <style scoped>
+        .sash-container {
+            height: 600px;
+        }
+        .sash {
+            margin: 0;
+            padding: 0;
+            background-color: gray;
+            display: inline-block;
+            height: 100%;
+            width: 6px;
+        }
+        .left{
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            display: inline-block;
+        }
+        .right{
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            display: inline-block;
+        }
+    </style>
+    <script>
+    let sashWidth = 6;
+    let tag = this;
+    tag.leftWidth = 150;
+    tag.mousedown = function(e){
+        tag.refs['container'].addEventListener('mousemove', tag.mousemove);
+    };
+    tag.mouseup = function(e){
+        tag.refs['container'].removeEventListener('mousemove', tag.mousemove);
+    };
+    tag.mousemove = function(e){
+        let leftWidth = e.pageX - tag.refs['container'].offsetLeft - sashWidth/2;
+        let rightWidth = tag.width - leftWidth - sashWidth;
+        tag.update({leftWidth: leftWidth, rightWidth: rightWidth});
+    };
+    tag.on('mount', function(){
+        let c = tag.refs['container'];
+        let leftWidth = 150;
+        let rightWidth = c.offsetWidth - leftWidth - sashWidth;
+        tag.update({width: c.offsetWidth, height: c.offsetHeight, leftWidth: leftWidth, rightWidth: rightWidth});
+
+        let s = tag.refs['sash'];
+        s.addEventListener('mousedown', tag.mousedown);
+        c.addEventListener('mouseup', tag.mouseup);
+    });
+    </script>
+</gizmo-sash-container>

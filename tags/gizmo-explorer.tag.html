@@ -8,7 +8,8 @@
             <gizmo-authenticator />
         </div>
         <div class="content">
-            <gizmo-item if={data} data={data} expanded={true} root={true} />
+            <div if={data} data-is={component(data.type)} data={data}></div>
+            <!-- <gizmo-item if={data} data={data} expanded={true} root={true}/> -->
         </div>
     </div>
     <style scoped>
@@ -64,6 +65,16 @@
         this.url = this.opts.url;
         this.data = null;
         
+        this.component = function(type){
+            console.log(type);
+            switch (type) {
+            case "train-passages":
+                return "gizmo-table";
+            default: 
+                return "gizmo-item";
+            }
+        };
+
         this.transform = function(url){
             if (!url){
                 return url;

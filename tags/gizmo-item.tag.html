@@ -1,7 +1,7 @@
 <gizmo-item>
     <div class="item {root: opts.root, expanded: isExpanded()}">
         <div class="header" onclick={toggleExpanded}>
-            <div class="type">
+            <div class="type" title={opts.data.type}>
                 <gizmo-icon type={'item:'+opts.data.type} size="large"/>
             </div>
             <div>
@@ -37,7 +37,7 @@
             <div class="items" if={items()}>
                 <gizmo-items items={items()} resolve={opts.resolve}/>
             </div>
-        </div>
+        </div> 
     </div>
     <style scoped>
         :scope>.item {

@@ -1,0 +1,100 @@
+<gizmo-table>
+    <div class="item">
+        <div class="header">
+            <div class="type" title={opts.data.type}>
+                <gizmo-icon type={'item:'+opts.data.type} size="large"/>
+            </div>
+            <div>
+                <p class="label">{opts.data.label}</p>
+                <p if={opts.data.description} class="description">{opts.data.description}</p>
+            </div>
+        </div>
+        <div class="content">
+            <table ref="table">
+                <thead>
+                    <tr>
+                        <th each={p in opts.data.items[0].properties}>
+                            {label(p)}
+                        </th>
+                        <th>
+                            Links
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr each={r in opts.data.items}>
+                        <td each={p in r.properties}>
+                            {display(p)}
+                        </td>
+                        <td>
+                            <gizmo-links links={links(r)}></gizmo-links>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>    
+        </div>
+    </div>
+    <style scoped>
+        :scope>.item {
+            background-color: white;
+            border-radius: .5rem;
+            border: 1px solid #D3D3D3;
+        }
+        .header{
+            overflow: hidden;
+            background: linear-gradient(135deg, #90CAF9, #FFFFFF);
+            padding: 1em;
+            border-radius: .5rem;
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+        .header>div {
+            display: inline-block;
+            vertical-align: top;
+        }
+        .header p{
+            margin-top: 0;
+            margin-bottom: .25em;
+        }
+        .header>.type{
+            margin-right: .25em;
+        }
+        .header>.label{
+            font-size: 1.25em;
+            margin-top: 0;
+            margin-bottom: .25em;
+        }
+        .header .description{
+            color: #505050;
+            margin-top: 0;
+            margin-bottom: .25em;
+        }
+        .content{
+            padding: 1em;
+        }
+        table {
+            background-color: white;
+            width: 100%;
+            table-layout: fixed;
+        }
+        td, th{
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    </style>
+    <script>
+        var tag = this;
+        tag.label = function(p){
+            return p.label||p.name;
+        }
+        tag.display = function(p){
+            return p.display||p.value;
+        };
+        tag.links = function(i){
+            return HyperItem.links(i);
+        };
+        tag.on("mount", function(){
+            console.log(tag.refs["table"].offsetWidth);
+        })
+    </script>
+</gizmo-table>

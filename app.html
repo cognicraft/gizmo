@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Gizmo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/gizmo.css">
+    <link rel="icon" type="image/png" href="images/favicon.png">
+
+    <script src="js/riot+compiler.js"></script>
+    <script src="js/URI.js"></script>
+    <script src="js/hyper-item.js"></script>
+    <script src="js/store.js"></script>
+    <script src="js/gizmo.js"></script>
+
+    <script src="tags/gizmo-application.tag.html" type="riot/tag"></script>
+    <script src="tags/gizmo-perspective-stack.tag.html" type="riot/tag"></script>
+    <script src="tags/gizmo-perspective.tag.html" type="riot/tag"></script>
+    <script src="tags/gizmo-sash-container.tag.html" type="riot/tag"></script>
+</head>
+
+<body>
+    <header></header>
+    <div class="content"><gizmo-application></gizmo-application></div>
+    <footer></footer>
+    <script>    
+        riot.mount('gizmo-application', {});
+    </script>
+</body>
+
+</html>

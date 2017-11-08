@@ -3,13 +3,14 @@
         <form class="location" onsubmit={submit}>
             <input type="text" class="url" value={url} onchange={onchange}></input>
             <button class="go" type="submit">Go</button>
+            <button class="config" type="button" onclick="{config}"><gizmo-icon size="tiny" type="config"/></button>
         </form>
         <div class="authenticator">
             <gizmo-authenticator />
         </div>
         <div class="content">
-            <div if={data} data-is={component(data.type)} data={data}></div>
-            <!-- <gizmo-item if={data} data={data} expanded={true} root={true}/> -->
+            <!-- <div if={data} data-is={component(data.type)} data={data}></div> -->
+            <gizmo-item if={data} data={data} expanded={true} root={true}/> 
         </div>
     </div>
     <style scoped>
@@ -25,7 +26,7 @@
             border-top: 1px solid #666666;
         }
         .location>.url{
-            width: calc(100% - 85px);
+            width: calc(100% - 125px);
         }
         .explorer>.authenticator {
             position: fixed;
@@ -50,6 +51,10 @@
             border-radius: 2px;
             box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 1px 5px 0 rgba(0,0,0,0.12), 0 3px 1px -2px rgba(0,0,0,0.2);
         }
+        .config{
+            width: 35px;
+            padding: 5px;
+        }
         input[type=text], input[type=password] {
             padding:5px; 
             border:2px solid #ccc; 
@@ -62,10 +67,16 @@
     </style>
     <script>
         let tag = this;
-        this.url = this.opts.url;
-        this.data = null;
+        tag.url = tag.opts.url;
+        tag.data = null;
         
-        this.component = function(type){
+        tag.config = function(){
+            let dialog = document.createElement("gizmo-config-dialog");
+            document.body.appendChild(dialog);
+            riot.mount(dialog, {});
+        };
+
+        tag.component = function(type){
             console.log(type);
             switch (type) {
             case "train-passages":
@@ -75,7 +86,7 @@
             }
         };
 
-        this.transform = function(url){
+        tag.transform = function(url){
             if (!url){
                 return url;
             }
@@ -88,12 +99,12 @@
             return t;
         }; 
         
-        this.onchange = function(e) {
+        tag.onchange = function(e) {
             var value = e.target.value;
             tag.update({url: value});
         };
 
-        this.submit = function(e){
+        tag.submit = function(e){
             e.preventDefault();
             load();
         };

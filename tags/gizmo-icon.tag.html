@@ -1,5 +1,5 @@
 <gizmo-icon>
-    <span class="{size}"><img src={iconURL(opts.type)} /></span>
+    <span class="{size}"><img src={iconURL(opts.type, opts.variant)} /></span>
     <style scoped>
         span {
             display: inline-block;
@@ -55,10 +55,14 @@
             "item:error": "images/error.svg",
             "item:user": "images/man-user.svg",
             "item:users": "images/users-group.svg",
-            "link:self": "images/refresh-button.svg"
+            "link:self": "images/refresh-button.svg",
+            "config": "images/settings-cog.svg"
         };
-        this.size = opts.size?opts.size:'m';
-        this.iconURL = function(type){
+        this.size = opts.size?opts.size:'small';
+        this.iconURL = function(type, variant){
+            if (variant === "dark" && type === 'config') {
+                return "images/settings-cog-dark.svg";
+            }
             var url = iconURLs[type];
             if (!url) {
                 if (type.startsWith('link')){

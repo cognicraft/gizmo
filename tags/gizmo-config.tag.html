@@ -1,0 +1,81 @@
+<gizmo-config>
+    <div class="config">
+        <form onsubmit={submit}>
+            <div class="header">
+                <div class="type"><gizmo-icon type="config" variant="dark" size="small"/></div>
+                <div>
+                    <p class="label">Config</p>
+                    <p class="description"></p>
+                </div>
+            </div>
+            <div class="content">
+                    <table>
+                            <tr class="parameter">
+                                <th class="label">Accept-Language:</th>
+                                <td class="value">
+                                    <input onchange="{changeLanguage}" value={language} />
+                                </td>
+                            </tr>
+                    </table>
+            </div>
+            <div class="buttons">
+                <input class="button primary" type="submit" value="OK"/>
+            </div>
+        </form>
+    </div>
+    <style scoped>
+        .header{
+            background: linear-gradient(135deg, #26a69a, #FFFFFF); 
+            padding: 1em;
+        }
+        .header>div {
+            display: inline-block;
+            vertical-align: top;
+        }
+        .header .type{
+            margin-right: .25em;
+        }
+        .header .label{
+            font-size: 1.25em;
+            margin-top: 0;
+            margin-bottom: .25em;
+        }
+        .header .description{
+            color: #505050;
+            margin-top: 0;
+            margin-bottom: .25em;
+        }
+        .content{
+            margin: 1em;
+            width: calc(100% - 2em);
+        }
+        .buttons {
+            padding: 1em;
+            text-align: right;
+        }
+        input[type=submit] {
+            padding:5px 15px; 
+            background:#ccc; 
+            border:0 none;
+            cursor:pointer;
+            color: #FFFFFF;
+            background-color: #66A3FF;
+            border-radius: 2px;
+            box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 1px 5px 0 rgba(0,0,0,0.12), 0 3px 1px -2px rgba(0,0,0,0.2);
+        }
+    </style>
+    <script>
+        var tag = this;
+        tag.language = Gizmo.getHeader('Accept-Language') || navigator.language || 'en';
+        tag.changeLanguage = function(e){
+            tag.update({language:e.target.value});
+        };
+        tag.submit = function(e) {
+            e.preventDefault();
+            Gizmo.setHeader('Accept-Language', tag.language);
+            if (tag.opts.onclose){
+                tag.opts.onclose(tag);
+            }
+        };
+    </script>
+</gizmo-config>

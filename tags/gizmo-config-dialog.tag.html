@@ -1,0 +1,21 @@
+<gizmo-config-dialog>
+    <gizmo-modal onclose={close}>
+        <gizmo-config onclose={close}/>
+    </gizmo-modal>
+    <style scoped>
+        gizmo-config>.config {
+            border-radius: .5rem;
+            border: 1px solid #D3D3D3;
+        }
+        gizmo-config>.config .header{
+            border-top-left-radius: .5rem;
+            border-top-right-radius: .5rem;
+        }
+    </style>
+    <script>
+        let tag = this;
+        tag.close = function(){
+            tag.unmount();
+        };
+    </script>
+</gizmo-config-dialog>

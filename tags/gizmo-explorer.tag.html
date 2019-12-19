@@ -5,9 +5,6 @@
             <button class="go" type="submit">Go</button>
             <button class="config" type="button" onclick="{config}"><gizmo-icon size="tiny" type="config"/></button>
         </form>
-        <div class="authenticator">
-            <gizmo-authenticator />
-        </div>
         <div class="content">
             <!-- <div if={data} data-is={component(data.type)} data={data}></div> -->
             <gizmo-item if={data} data={data} expanded={true} root={true}/> 
@@ -27,15 +24,6 @@
         }
         .location>.url{
             width: calc(100% - 125px);
-        }
-        .explorer>.authenticator {
-            position: fixed;
-            right: 0;
-            top: 3em;
-            background: #bbbbbb;
-            padding: .5em;
-            border-left: 1px solid #666666;
-            border-bottom: 1px solid #666666;
         }
         .explorer>.content {
             padding-top: 4em;
